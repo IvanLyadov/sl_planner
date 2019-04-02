@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-// import logo from '../logo.svg';
-import '../App.css';
-import Api from '../Api.js';
-// import MainRouter from './MainRouter.js';
 import { Button, ListGroup, Collapse, ListGroupItem, Container, Row, Col, Badge } from 'react-bootstrap';
 import { UncontrolledCollapse, CardBody, Card, CardHeader, Form, FormGroup, Label, Input } from 'reactstrap';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import PostEditor from "./PostEditor";
 
-class Main extends React.Component {
+class EventsList extends React.Component {
    constructor(props, context) {
     super(props, context);
 
@@ -22,43 +15,8 @@ class Main extends React.Component {
     };
   }
 
-  accordeonHandler = (statement) => {
-    this.setState({
-      accodeon : statement
-    })
-  }
-
-  componentDidMount(){
-    this.setState({
-      data: Api
-    });
-  }
-
-  getHumanFormat = (timestamp)=>{
-    let date = new Date(timestamp * 1000);
-    return `${ ("0" + date.getDate()).slice(-2) }.${("0" + (date.getMonth() + 1)).slice(-2) }.${date.getFullYear()}
-            ${date.getHours()}:${date.getMinutes()}`
-  }
-
-  timeToUnix = (date) => {
-    return new Date(date).getTime() / 1000;
-  }
-
-  handleStartDate = (date) =>{
-    this.setState({
-      startDate: date
-    });
-    console.log(this.timeToUnix(date));
-  }
-
-  handleEndDate = (date) =>{
-    this.setState({
-      endDate: date
-    });
-  }
-
   render() {
-    console.log(this.state.data);
+    console.log(this.props);
     const { open, accodeon, data } = this.state;
 
     return (
@@ -139,14 +97,9 @@ class Main extends React.Component {
           </Row>
         </Container>
         </header>
-        <Router>
-            <div>
-              <Route path={'/edit'} component={PostEditor} />
-            </div>
-        </Router>
       </div>
     );
   }
 }
 
-export default Main;
+export default EventsList;

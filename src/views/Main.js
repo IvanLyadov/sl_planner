@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
+import Api from '../Api.js';
 import { Button, ListGroup, Collapse, ListGroupItem, Container, Row, Col, Badge } from 'react-bootstrap';
 import { UncontrolledCollapse, CardBody, Card } from 'reactstrap';
 
@@ -9,6 +10,7 @@ class Main extends React.Component {
     super(props, context);
 
     this.state = {
+      data: [],
       open: false,
       accodeon: {
         item_0: false,
@@ -24,8 +26,14 @@ class Main extends React.Component {
     })
   }
 
+  componentDidMount(){
+    this.setState({
+      data: Api
+    });
+  }
 
   render() {
+    console.log(this.state.data);
     const { open, accodeon } = this.state;
 
     return (

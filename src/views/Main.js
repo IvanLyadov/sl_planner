@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-// import logo from '../logo.svg';
+import { BrowserRouter as Router, Route, Redirect, NavLink } from "react-router-dom";
 import '../App.css';
 import Api from '../Api.js';
-// import MainRouter from './MainRouter.js';
-import { Button, ListGroup, Collapse, ListGroupItem, Container, Row, Col, Badge } from 'react-bootstrap';
-import { UncontrolledCollapse, CardBody, Card, CardHeader, Form, FormGroup, Label, Input } from 'reactstrap';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PostEditor from "./PostEditor";
+import EventsList from "./EventsList";
+import Navigation from "./Navigation";
 
 class Main extends React.Component {
    constructor(props, context) {
@@ -57,91 +54,58 @@ class Main extends React.Component {
     });
   }
 
+  insertEvent = (data) => {
+    let new_state = this.state.data;
+    new_state.push(data);
+    this.setState({
+      data: new_state,
+    })
+    console.log(data)
+  }
+
+  deleteState = (id) =>{
+    let new_state = this.state.data.filter(obj => { return obj.id !== id});
+
+    this.setState({
+      data: new_state,
+    });
+    console.log(new_state);
+  }
+
+
   render() {
-    console.log(this.state.data);
     const { open, accodeon, data } = this.state;
 
+    let api_interface = {
+      getHumanFormat: this.getHumanFormat,
+      handleStartDate : this.handleStartDate,
+      handleEndDate : this.handleEndDate,
+      timeToUnix: this.timeToUnix,
+      deleteState: this.deleteState,
+    }
+
+    let dataPicker_api = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    }
+
+    let sorted_posts = this.state.data.sort((fst, sec)=>{return fst.start_ts - sec.start_ts});
+
+    if (this.state.startDate) {
+        sorted_posts = sorted_posts.filter((obj) => {return obj.start_ts >= new Date(this.state.startDate).getTime() / 1000});
+    }
+    if (this.state.endDate) {
+        sorted_posts = sorted_posts.filter((obj) => {return obj.start_ts <= new Date(this.state.endDate).getTime() / 1000 });
+    }
+
     return (
-      <div className="App">
-        <header className="App-header">
-        <Container>
-          <Row>
-            <Col>
-            <h3>Events list</h3>
-            <CardHeader>
-            <Form>
-               <FormGroup>
-                <Row>
-                  <Col>
-                    <h5>Filter</h5>
-                  </Col>
-                  <Col>
-                    <DatePicker
-                    className="form-control"
-                     dateFormat="dd.MM.yyyy"
-                     showDisabledMonthNavigation
-                     selected={this.state.startDate}
-                     onChange={this.handleStartDate} />
-                  </Col>
-                  <Col>
-                   <DatePicker
-                   className="form-control"
-                    dateFormat="dd.MM.yyyy"
-                    showDisabledMonthNavigation
-                    selected={this.state.endDate}
-                    onChange={this.handleEndDate} />
-                  </Col>
-
-                </Row>
-               </FormGroup>
-            </Form>
-            </CardHeader>
-            <ListGroup>
-              {data.map((post, idx) =>{
-                  return (
-                      <ListGroupItem className={`toggler${idx}`} key={idx}>
-                        <Row>
-                            <Col>
-                              <h5 >
-                                {post && post.title}
-                              </h5>
-                            </Col>
-
-                            <Col>
-                              <h5 >
-                                From {post && (this.getHumanFormat(post.start_ts).toString())}
-                              </h5>
-                            </Col>
-                            <Col>
-                              <h5 >
-                                To {post && (this.getHumanFormat(post.end_ts).toString())}
-                              </h5>
-                            </Col>
-                            <Col>
-                              <Button >
-                                Delete
-                              </Button>
-                            </Col>
-                        </Row>
-                        <UncontrolledCollapse toggler={`.toggler${idx}`}>
-                          <Card>
-                            <CardBody>
-                              {post && post.description}
-                            </CardBody>
-                          </Card>
-                        </UncontrolledCollapse>
-                      </ListGroupItem>
-                  )
-                })
-              }
-            </ListGroup>
-            </Col>
-          </Row>
-        </Container>
-        </header>
+      <div>
         <Router>
+            <Navigation />
             <div>
-              <Route path={'/edit'} component={PostEditor} />
+              <Route exact path={'/'} component={()=> <Redirect to="list" />} />
+              <Route path={'/list'} exact={true} render={props => <EventsList {...props} data={sorted_posts} api_interface={api_interface} dataPicker_api={dataPicker_api} />} />
+              <Route path={'/edit'} render={props => <PostEditor form_handler={this.insertEvent} />} />
             </div>
         </Router>
       </div>

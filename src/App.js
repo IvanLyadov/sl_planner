@@ -7,9 +7,9 @@ import Main from "./views/Main";
 
 
 export default () => (
-  <Router basename={process.env.REACT_APP_BASENAME || ""}>
-      <div>
-        <Route path={'/'} component={Main} />
-      </div>
-  </Router>
+  <div>
+    <Main />
+  </div>
+
+  
 );

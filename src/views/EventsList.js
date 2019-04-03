@@ -33,7 +33,7 @@ class EventsList extends React.Component {
         <Container className="main_container">
           <Row>
             <Col>
-            <CardHeader className="mainCardHeader">
+            <CardHeader className="mainCardHeader listHeader">
             <Form>
                <FormGroup>
                 <Row>

@@ -1,0 +1,45 @@
+@import "variables";
+
+html{
+  height: 100%;
+  body{
+    background-image: $body-gradient;
+    height: 100%;
+  }
+}
+.main_container{
+  font-family: $content-font;
+}
+.form-group{
+  h3{
+    margin-bottom: 0.5rem;
+    margin-top: 15px;
+  }
+}
+.list-item{
+  cursor: pointer;
+  vertical-align: middle;
+}
+.list-toggler.card{
+  border:0;
+}
+
+.list-wrapper {
+  .col{
+    text-align: center;
+  }
+}
+.card-header{
+  background-color: $header-color !important;
+}
+.listHeader{
+  .react-datepicker-wrapper{
+    margin-top: 16px;
+  }
+}
+.editor-lable{
+  display: block;
+}
+.mainCardHeader{
+  margin-top: 20px;
+}

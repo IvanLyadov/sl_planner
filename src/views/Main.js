@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, NavLink } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import '../App.css';
 import Api from '../Api.js';
 import "react-datepicker/dist/react-datepicker.css";
@@ -34,7 +34,7 @@ class Main extends React.Component {
   getHumanFormat = (timestamp)=>{
     let date = new Date(timestamp * 1000);
     return `${ ("0" + date.getDate()).slice(-2) }.${("0" + (date.getMonth() + 1)).slice(-2) }.${date.getFullYear()}
-            ${date.getHours()}:${date.getMinutes()}`
+            ${date.getHours()}:${(date.getMinutes()<10?'0':'') + date.getMinutes()}`
   }
 
   timeToUnix = (date) => {
@@ -45,7 +45,6 @@ class Main extends React.Component {
     this.setState({
       startDate: date
     });
-    console.log(this.timeToUnix(date));
   }
 
   handleEndDate = (date) =>{
@@ -56,11 +55,12 @@ class Main extends React.Component {
 
   insertEvent = (data) => {
     let new_state = this.state.data;
+    let last_post = new_state.sort( (a, b) => { return b.id - a.id } );
+    data.id = last_post.length !== 0 ? ( last_post[0].id + 1 ): 1;
     new_state.push(data);
     this.setState({
       data: new_state,
     })
-    console.log(data)
   }
 
   deleteState = (id) =>{
@@ -69,12 +69,10 @@ class Main extends React.Component {
     this.setState({
       data: new_state,
     });
-    console.log(new_state);
   }
 
 
   render() {
-    const { open, accodeon, data } = this.state;
 
     let api_interface = {
       getHumanFormat: this.getHumanFormat,

@@ -1,7 +1,15 @@
-import React, { Component } from 'react';
-import { Redirect, NavLink } from "react-router-dom";
-import { Button, ListGroup, Collapse, ListGroupItem, Container, Row, Col, Badge } from 'react-bootstrap';
-import { UncontrolledCollapse, CardBody, Card, CardHeader, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import React from 'react';
+import { Redirect } from "react-router-dom";
+import {
+  CardHeader,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Container,
+  Row,
+  Col } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -32,7 +40,8 @@ class PostEditor extends React.Component {
     let {form_handler} = this.props;
 
     form_data.startDate = document.getElementById('startDate').value;
-    form_data.endDate = document.getElementById('endDate').value;
+    form_data.start_ts = Math.floor(new Date(this.state.startDate).getTime() / 1000);
+    form_data.end_ts = Math.floor(new Date(this.state.endDate).getTime() / 1000);
     form_data.title = document.getElementById('title').value;
     form_data.description = document.getElementById('description').value;
 
@@ -53,7 +62,9 @@ class PostEditor extends React.Component {
         <Container className="main_container">
           <Row>
             <Col>
-              <h3>Add new event </h3>
+              <CardHeader className="mainCardHeader">
+                <h3>Add new event </h3>
+              </CardHeader>
               <CardHeader>
               <Form>
                <Row>
@@ -63,6 +74,7 @@ class PostEditor extends React.Component {
                    <DatePicker
                     className="form-control"
                     id="startDate"
+                    autoComplete="off"
                     name="start_date"
                     type="date"
                     dateFormat="dd.MM.yyyy h:mm"
@@ -78,6 +90,7 @@ class PostEditor extends React.Component {
                     <DatePicker
                      className="form-control"
                      id="endDate"
+                     autoComplete="off"
                      name="end_date"
                      type="date"
                      dateFormat="dd.MM.yyyy h:mm"
@@ -102,7 +115,11 @@ class PostEditor extends React.Component {
                  <Label for="description">Description</Label>
                  <Input type="textarea" name="description" id="description" />
                </FormGroup>
-               <Button onClick={this.handleSubmit}>Submit</Button>
+                  <Button
+                    onClick={this.handleSubmit}
+                    color="primary">
+                      Submit
+                  </Button>
              </Form>
               </CardHeader>
             </Col>

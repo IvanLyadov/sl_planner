@@ -33,6 +33,7 @@
 } */
 .list-item{
   cursor: pointer;
+  vertical-align: middle;
 }
 .list-toggler.card{
   border:0;
@@ -51,8 +52,11 @@ html{
   height: 100%;
 }
 .card-header{
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.4) !important;
 }
 .editor-lable{
   display: block;
+}
+.mainCardHeader{
+  margin-top: 20px;
 }

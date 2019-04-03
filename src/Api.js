@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    title: "Date",
+    title: "Training",
     description: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
     start_ts: 1554399020,
     end_ts: 1554404420

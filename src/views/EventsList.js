@@ -1,6 +1,17 @@
-import React, { Component } from 'react';
-import { Button, ListGroup, Collapse, ListGroupItem, Container, Row, Col, Badge } from 'react-bootstrap';
-import { UncontrolledCollapse, CardBody, Card, CardHeader, Form, FormGroup, Label, Input } from 'reactstrap';
+import React from 'react';
+import {
+    UncontrolledCollapse,
+    CardBody,
+    Card,
+    CardHeader,
+    Form,
+    FormGroup,
+    Button,
+    ListGroup,
+    ListGroupItem,
+    Container,
+    Row,
+    Col } from 'reactstrap';
 import DatePicker from "react-datepicker";
 
 class EventsList extends React.Component {
@@ -17,36 +28,34 @@ class EventsList extends React.Component {
 
   render() {
     let {data, api_interface, dataPicker_api} = this.props;
-    console.log('dataPicker_api', dataPicker_api);
 
     return (
-      <div className="App">
-        <header className="App-header">
         <Container className="main_container">
           <Row>
             <Col>
-            <h3>Events list</h3>
-            <CardHeader>
+            <CardHeader className="mainCardHeader">
             <Form>
                <FormGroup>
                 <Row>
-                  <Col>
-                    <h5>Filter</h5>
+                  <Col sm={8}>
+                  <h3>Events list</h3>
                   </Col>
-                  <Col>
+                  <Col xs lg="2">
                     <DatePicker
                     className="form-control"
                      dateFormat="dd.MM.yyyy"
                      showDisabledMonthNavigation
+                     placeholderText="Start date"
                      isClearable={true}
                      selected={dataPicker_api.startDate}
                      onChange={api_interface.handleStartDate} />
                   </Col>
-                  <Col>
+                  <Col xs lg="2">
                    <DatePicker
                    className="form-control"
                     dateFormat="dd.MM.yyyy"
                     showDisabledMonthNavigation
+                    placeholderText="End date"
                     isClearable={true}
                     selected={dataPicker_api.endDate}
                     onChange={api_interface.handleEndDate} />
@@ -104,7 +113,7 @@ class EventsList extends React.Component {
                               </span>
                             </Col>
                             <Col>
-                              <Button onClick={ ()=>{api_interface.deleteState(post.id)} }>
+                              <Button onClick={ ()=>{api_interface.deleteState(post.id)} } color="primary">
                                 Delete
                               </Button>
                             </Col>
@@ -124,8 +133,6 @@ class EventsList extends React.Component {
             </Col>
           </Row>
         </Container>
-        </header>
-      </div>
     );
   }
 }

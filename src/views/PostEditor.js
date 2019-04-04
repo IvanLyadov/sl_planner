@@ -19,8 +19,8 @@ class PostEditor extends React.Component {
 
     this.state = {
       data: [],
-      startDate: null,
-      endDate: null,
+      startDate: new Date(),
+      endDate: new Date(new Date().setHours( new Date().getHours() + 4)),
       redirect: false,
     };
   }
@@ -108,6 +108,7 @@ class PostEditor extends React.Component {
                    type="text"
                    name="title"
                    id="title"
+                   required
                    placeholder=""
                  />
                </FormGroup>
